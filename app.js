@@ -196,6 +196,8 @@ app.post('/signup', function(req, res){
 
 		user.makePassword(req.body.password);
 
+		console.log();
+
 		user.save()
 		.then(function(u) {
 

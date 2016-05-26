@@ -14,8 +14,6 @@ module.exports = function(sequelize, DataTypes) {
 			getFullname: function() {
 				if(this.LastName && this.FirstName)
 					return [this.FirstName, this.LastName].join(' ')
-				else if(this.TwitterUsername)
-					return this.TwitterUsername;
 				else if(this.Email)
 					return this.Email
 				else
@@ -23,22 +21,22 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			validPassword: function(password)
 		    {
-		        if(this.password === this.encryptPassword(password))
+		        if(this.password === this.encryptPassword(Password))
 		        	return true;
 		        else 
 		        	return false;
 		    },
 
 		    authenticate: function(plainText) {
-		        return this.encryptPassword(plainText) === this.password;
+		        return this.encryptPassword(plainText) === this.Password;
 		    },
 
 		    makePassword: function(pass) {
 	            console.log("setting password");
-		        if(!this.salt){
-		                this.salt = this.makeSalt();
+		        if(!this.Salt){
+		                this.Salt = this.makeSalt();
 		        }
-		        this.password = this.encryptPassword(pass);
+		        this.Password = this.encryptPassword(pass);
 			},
 
 		    makeSalt: function() {
