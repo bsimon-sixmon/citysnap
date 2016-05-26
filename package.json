@@ -24,6 +24,7 @@
     "passport-facebook": "^2.1.0",
     "passport-local": "^1.0.0",
     "pg": "^4.5.5",
+    "randomstring": "^1.1.5",
     "sequelize": "^3.22.0"
   }
 }

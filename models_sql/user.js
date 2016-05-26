@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes) {
 			},
 			validPassword: function(password)
 		    {
-		        if(this.password === this.encryptPassword(Password))
+		        if(this.Password === this.encryptPassword(password))
 		        	return true;
 		        else 
 		        	return false;
@@ -44,7 +44,8 @@ module.exports = function(sequelize, DataTypes) {
 		    },
 
 		    encryptPassword: function(password) {
-		        return require('crypto').createHmac('sha1', this.salt).update(password).digest('hex');
+		    	console.log(password);
+		        return require('crypto').createHmac('sha1', this.Salt).update(password).digest('hex');
 		    }
 		}
 	});
