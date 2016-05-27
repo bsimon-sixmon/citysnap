@@ -2,13 +2,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Upload de photo</title>
-	<link href='https://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<%- include commoncss.ejs %>	
 	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+	<link rel="stylesheet" href="/css/dropzone.css" />
 	<style>
 
 	body{
-		font-family: 'Oswald', sans-serif;
 		background-image: url('/images/gare.jpg');
 	}
 	.upload-file{
@@ -17,142 +16,110 @@
 	.date-input{
 		width:100px;
 	}
-	#map{height:400px;}
+	#map{
+		height:400px;
+	}
 	.add-photo{
 		margin:10px 0 0;
 	}
-	.dz-default{
-		border: 1px solid;
-		padding: 20px;
-		border-color: black;
-		border-style: dashed;
-	}
+
 	</style>
 
 
 </head>
 <body>
-	<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="/">LA TIME MACHINE</a>
-				</div>
-				<form class="navbar-form navbar-left" role="search">
-					<div class="form-group">
-						<input type="text" class="form-control search-address-input" placeholder="Rechercher une adresse">
+	<%- include navbar.ejs %>
+	<div class="container-fluid">
+		<div id="uploadbox" style="margin-top:50px;" class="mainbox col-md-10 col-md-offset-1 col-sm-10 col-sm-offset-1">
+				<div class="panel panel-info" >
+					<div class="panel-heading">
+						<div class="panel-title">Ajouter une photo</div>
 					</div>
-					<a href="javascript:;" class="btn btn-default search-address">Go</a>
-				</form>
-
-				 <ul class="nav navbar-nav navbar-right">
-				 	<% if(locals.user) { %>
-					<li class="dropdown">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Bonjour <%= locals.user.first_name %> <span class="caret"></span></a>
-						<ul class="dropdown-menu">
-							<li><a href="/logout">Déconnexion</a></li>
-						</ul>
-					</li>
-					<% } else { %>
-					<form class="navbar-form navbar-left" role="search">
-						<a href="/login" class="btn btn-default">Se connecter</a>
-					</form>
-					<% } %>
-				</ul>
-				<% if(locals.user) { %>
-					<form class="navbar-form navbar-right" role="search">
-						<a href="/upload" class="btn btn-default">Ajouter une photo</a>
-					</form>
-				<% } %>
-		  </div><!-- /.container-fluid -->
-		</nav>
-	<div class="container">
-		<div id="uploadbox" style="margin-top:50px;" class="mainbox col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-info" >
-				<div class="panel-heading">
-					<div class="panel-title">Ajouter une photo</div>
-					<!--<div style="float:right; font-size: 80%; position: relative; top:-10px"><a href="#">Forgot password?</a></div>-->
+					<div style="padding-top:30px" class="panel-body row" >
+						<div class="col-md-6 col-sm-6">
+							<form action="/photo/upload" class="dropzone" id="uploadZone" >
+								<!--<div style="margin-bottom: 25px" class="form-group">
+									<label>Choisissez une photo à uploader</label>
+									<input type="file" name="image" id="image" class="dropzone">
+									<a href="javascript:;" class="upload-photo btn btn-default">Uploader la photo</a>
+								</div>-->
+							</form>
+							<div id="preview-container"></div>
+							<div class="form-group">
+								<label>Positionnez la photo sur la carte :</label>
+							</div>			
+							<div id="map"></div>	
+						</div>
+						<div class="col-md-6 col-sm-6">				
+							<form action="/photo" method="POST" class="form" role="form" >
+								<div class="form-group">
+									<label>Titre de la photo</label>
+									<input type="text" name="name" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Description de la photo</label>
+									<input type="text" name="description" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Qui a pris la photo ?</label>
+									<input type="text" name="author" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Credits</label>
+									<input type="text" name="credits" class="form-control">
+								</div>
+								<div class="form-group">
+									<label>Date minimum</label>
+									<input type="number" name="start_year" class="form-control" step="1" value="1880" min="1880" max="2015">
+								</div>
+								<div class="form-group">
+									<label>Date maximum</label>
+									<input type="number" name="end_year" class="form-control" step="1" value="1880" min="1880" max="2015">
+								</div>
+							</form>												
+							<input type="hidden" name="latitude" class="lat">
+							<input type="hidden" name="longitude" class="lng">
+							<input type="hidden" name="filename" class="filename">
+							<input type="hidden" name="upload_result" class="upload-result">
+							<!-- <a href="javascript:;" class="btn btn-primary add-photo">Ajouter la photo</a> -->
+							<input type="submit" class="btn btn-primary add-photo" value="Ajouter la photo"/>
+						</div>	
+					</div>				
 				</div>
-
-				<div style="padding-top:30px" class="panel-body" >
-
-					<!--<form action="/photo/upload" method="POST" enctype="multipart/form-data" class="form upload-photo-form" role="form" >-->
-					<form action="/photo/upload" class="dropzone" id="uploadZone" >
-						<!--<div style="margin-bottom: 25px" class="form-group">
-							<label>Choisissez une photo à uploader</label>
-							<input type="file" name="image" id="image" class="dropzone">
-							<a href="javascript:;" class="upload-photo btn btn-default">Uploader la photo</a>
-						</div>-->
-					</form>
-					<form action="/photo" method="POST" class="form" role="form" >
-						<div class="form-group">
-							<label>Titre de la photo</label>
-							<input type="text" name="name" class="form-control">
-						</div>
-						<div class="form-group">
-							<label>Description de la photo</label>
-							<input type="text" name="description" class="form-control">
-						</div>
-						<div class="form-group">
-							<label>Qui a pris la photo ?</label>
-							<input type="text" name="author" class="form-control">
-						</div>
-						<div class="form-group">
-							<label>Credits</label>
-							<input type="text" name="credits" class="form-control">
-						</div>
-						<div class="form-group">
-							<label>Date minimum</label>
-							<input type="number" name="start_year" class="form-control" step="1" value="1880" min="1880" max="2015">
-						</div>
-						<div class="form-group">
-							<label>Date maximum</label>
-							<input type="number" name="end_year" class="form-control" step="1" value="1880" min="1880" max="2015">
-						</div>
-						<div class="form-group">
-							<label>Positionner la photo sur la carte :</label>
-						</div>
-						<div id="map"></div>
-						<input type="hidden" name="latitude" class="lat">
-						<input type="hidden" name="longitude" class="lng">
-						<input type="hidden" name="filename" class="filename">
-						<input type="hidden" name="upload_result" class="upload-result">
-						<!-- <a href="javascript:;" class="btn btn-primary add-photo">Ajouter la photo</a> -->
-						<input type="submit" class="btn btn-primary add-photo" value="Ajouter la photo"/>
-					</form>
-				</div>
+				
 			</div>
-		</div>
-
-
 	</div>
-	<script src="/js/dropzone.js"></script>
-	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<%- include commonjs.ejs %>
+	<script src="/js/dropzone.js"></script>	
 	<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 	<script type="text/javascript">
 			var map, marker, photoPos, photoUpload;
 			var west,east,north,south;
 
 			Dropzone.autoDiscover = false;
-			Dropzone.options.uploadZone = {
+			/*Dropzone.options.uploadZone = {
 				maxFilesize: 10, // Mb
+				addRemoveLinks: false,
+				parallelUploads : false,
+				uploadMultiple: false,
 				dictDefaultMessage : "Glisser/Déposer votre photo dans cette zone",
-				init: function () {
-					// Set up any event handlers
-					this.on('fileadded', function () {
-						debugger;
+				accept: function(file, done) {
+					console.log("uploaded");
+					done();
+				  },
+				init: function() {
+					this.on("addedfile", function() {
+						if (this.files[1]!=null){
+							this.removeFile(this.files[0]);
+						}
 					});
 				}
-			};
+			};*/
 
 			var md = new Dropzone("#uploadZone", {
 				url: "/photo/upload/",
+				dictDefaultMessage : "Cliquez ici pour uploader une photo",
+				dictRemoveFile : "Supprimer la photo",
 				maxFilesize: "5",
 				addRemoveLinks: true
 			});
@@ -169,7 +136,6 @@
 
 			md.on("success", function (e, result) {
 				photoUpload = result;
-				debugger;
 				$(".upload-result").val(JSON.stringify(photoUpload));
 			});
 

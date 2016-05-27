@@ -268,7 +268,7 @@ app.get('/upload', function (req, res) {
 // POST de la photo
 app.post('/photo/upload',  function(req, res) {
 
-	if(req.user){
+	if(!req.user){
 		return res.error("Auth error.");
 	}
 
@@ -327,7 +327,7 @@ app.post('/photo/upload',  function(req, res) {
 // POST de la photo
 app.post('/photo',  function(req, res) {
 
-	if(req.user){
+	if(!req.user){
 		return res.error("Auth error.");
 	}
 
