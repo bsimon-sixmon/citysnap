@@ -7,10 +7,6 @@
 		<link rel="stylesheet" href="/css/leaflet.css" />
 		
 		<style>
-			body{
-				font-family: 'Fira Sans', sans-serif;
-				padding-top: 50px;
-			}
 			.search-address-input{ width:400px !important;}
 			.slider-container{margin: 40px 0 60px;}
 			.main-container{margin: 0 0 20px;}
@@ -35,7 +31,9 @@
 			.nb-likes{
 				font-size: 22px;
 			}
-			#map { height: 80%; }
+			#map { 
+			    height: 500px;
+			}
 			.comments textarea{
 				width:80%;
 			}
@@ -48,6 +46,13 @@
 			.comment-item p{
 				font-size: 14px;
 			}
+			.right-container{
+				padding: 20px;
+			}
+			table a:not(.btn), .table a:not(.btn) {
+    			text-decoration: none;
+			}
+
 		</style>
 
 		<!-- JS Templates -->
@@ -91,23 +96,62 @@
 	
 		<%- include navbar.ejs %>	
 
-		<div class="container-fluid">
-			<div class="row slider-container">
-				<div class="col-md-3">
-					<span class="start-date">1880</span>
-				</div>
-				<div class="col-md-6">
-					<div id="slider"></div>
-				</div>
-				<div class="col-md-3">
-					<span class="end-date">2015</span>
-				</div>
-			</div>
-			<div class="row main-container">
-				<div class="col-md-6">
+		<div>
+			
+			<table id="photos-map" width="100%">
+				<tbody>
+					<tr>
+					    <td>
+							<div id="map"></div>			
+						</td>
+						<td width="700px" valign="top">
+							<div class="right-container">
+								<div class="row slider-container">
+									<div class="col-md-3">
+										<span class="start-date">1880</span>
+									</div>
+									<div class="col-md-6">
+										<div id="slider"></div>
+									</div>
+									<div class="col-md-3">
+										<span class="end-date">2015</span>
+									</div>
+								</div>
+								<div class="grid">
+								</div>
+								<div>
+									<div class="photo-zoom-container" >
+									</div>					
+									<div class="comments" style="display:none;">
+									<h3>Commentaires</h3>
+										<div class="comment-container">
+										</div>
+										<textarea  name="comment" class="comment" rows="5"></textarea>
+										<a href="javascript:;" class="comment-action">envoyer</a>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<!-- <div class="main-container">
+				<div>
 					<div id="map"></div>
 				</div>
-				<div class="col-md-6">
+				<div>
+					<div class="row slider-container">
+						<div class="col-md-3">
+							<span class="start-date">1880</span>
+						</div>
+						<div class="col-md-6">
+							<div id="slider"></div>
+						</div>
+						<div class="col-md-3">
+							<span class="end-date">2015</span>
+						</div>
+					</div>
 					<div class="grid">
 
 					</div>
@@ -123,7 +167,7 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.0/mustache.min.js"></script>
@@ -199,6 +243,8 @@
 			
 			var LoadMap = function(){
 
+				var height = $( window ).height();
+				$("#map").css("height",height-60);
 				map = L.map('map');
 
 				var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -360,13 +406,6 @@
 
 			$(document).ready(function(){
 
-				/*var elem = document.querySelector('.grid');
-				msnry = new Masonry( elem, {
-					// options
-					itemSelector: '.grid-item',
-					columnWidth: 200
-				});*/
-								
 				$(".grid").masonry({
 					itemSelector: '.grid-item',
 					columnWidth: 200,

@@ -7,6 +7,14 @@
 	body{
 		background-image: url('/images/gare.jpg');
 	}
+	.account{
+		text-align: center;
+    	margin-top: 30px;
+	}
+	.fb{
+		display: inline-block;
+		padding-left:10px;
+	}
 	</style>
 
 
@@ -15,10 +23,9 @@
 	<div class="container">    
 
 		<div id="signupbox" style="margin-top:200px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-			<div class="panel panel-info">
+			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<div class="panel-title">S'incrire</div>
-					<div style="float:right; font-size: 85%; position: relative; top:-10px"><a id="signinlink" href="/login" >Se connecter</a></div>
 				</div>  
 				<div class="panel-body" >
 					<form id="signupform" class="form-horizontal" role="form" method="POST" action="/signup">
@@ -57,7 +64,7 @@
 						<div class="form-group">
 							<!-- Button -->                                        
 							<div class="col-md-offset-3 col-md-9">
-								<button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> &nbsp S'inscrire</button>
+								<button id="btn-signup" type="submit" class="btn btn-info"><i class="fa fa-user-plus"></i> &nbsp S'inscrire</button>
 								<!--<span style="margin-left:8px;">or</span>  -->
 							</div>
 						</div>
@@ -65,9 +72,11 @@
 						<div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
 							<div class="col-md-offset-3 col-md-9">
 								<!-- <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>Créer un compte avec Facebook</button> -->
-								<a id="btn-fbsignup" href="/auth/facebook" class="btn btn-primary"><i class="icon-facebook"></i>Créer un compte avec Facebook</a>
+								<a id="btn-fbsignup" href="/auth/facebook" class="btn btn-primary"><i class="fa fa-facebook"></i><span class="fb">Créer un compte avec Facebook</span></a>
 							</div>                                           
 						</div>
+
+						<div class="account"><a id="signinlink" href="/login" >J'ai déjà un compte</a></div>
 					</form>
 				</div>
 			</div>
