@@ -63,21 +63,25 @@
 						</div>
 
 						<div style="border-top: 1px solid #999; padding-top:20px"  class="form-group">
-
 							<div class="col-md-offset-3 col-md-9">
-								<button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>Créer un compte avec Facebook</button>
+								<!-- <button id="btn-fbsignup" type="button" class="btn btn-primary"><i class="icon-facebook"></i>Créer un compte avec Facebook</button> -->
+								<a id="btn-fbsignup" href="/auth/facebook" class="btn btn-primary"><i class="icon-facebook"></i>Créer un compte avec Facebook</a>
 							</div>                                           
-
 						</div>
-
-
-
 					</form>
 				</div>
 			</div>
 		</div> 
 	</div>
+	<%- include commonjs.ejs %>
+	<script type="text/javascript">
 
-	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		$(document).ready(function(){
+
+			//$(".btn-fbsignup").on("click", function())
+
+		});
+
+	</script>
 </body>
 </html>

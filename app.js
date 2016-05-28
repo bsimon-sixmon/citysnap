@@ -331,6 +331,7 @@ app.post('/photo',  function(req, res) {
 		return res.error("Auth error.");
 	}
 
+	console.log(req.user);
 	var cloudinaryData = JSON.parse(req.body.upload_result);
 
 	var photo = db.photo.build({ 
@@ -347,7 +348,8 @@ app.post('/photo',  function(req, res) {
 		StartYear : req.body.start_year,
 		EndYear : req.body.end_year,
 		Latitude : req.body.latitude,
-		Longitude : req.body.longitude
+		Longitude : req.body.longitude,
+		UserId : req.user.Id
 	});
 
 
@@ -512,12 +514,14 @@ var QueryPhoto = function(south, north, west, east, startdate, enddate, callback
 			return console.error('could not connect to postgres', err);
 		}
 
-		var query = "SELECT CASE WHEN p.url like 'http%' THEN p.url ELSE 'http://lhistomap.com:3000' || p.url END as url,p.id,p.name,p.start_year,p.end_year,p.latitude,p.longitude,p.public_id,count(l.id) as nblikes from photos p LEFT OUTER JOIN likes l on l.photo_id=p.id";
+		var query = "SELECT CASE WHEN p.url like 'http%' THEN p.url ELSE 'http://lhistomap.com:3000' || p.url END as url,p.id,p.name,p.start_year,p.end_year,p.latitude,p.longitude,p.public_id,u.first_name,u.last_name,count(l.id) as nblikes from photos p ";
+		query += " INNER JOIN users u on p.user_id=u.id";
+		query += " LEFT OUTER JOIN likes l on l.photo_id=p.id";
 		query += " WHERE ((start_year BETWEEN " + startdate + " AND " + enddate + ")";
 		query += " OR (end_year BETWEEN " + startdate + " AND " + enddate + "))";
 		query += " AND (latitude BETWEEN " + south + " AND " + north + ")";
 		query += " AND (longitude BETWEEN " + west + " AND " + east + ")";
-		query += " GROUP BY p.url,p.id,p.name,p.start_year,p.end_year,p.latitude,p.longitude,p.public_id";
+		query += " GROUP BY p.url,p.id,p.name,p.start_year,p.end_year,p.latitude,p.longitude,p.public_id,u.first_name,u.last_name,u.id";
 
 		console.log(query);
 

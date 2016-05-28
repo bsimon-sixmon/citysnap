@@ -14,8 +14,8 @@ module.exports = function(sequelize, DataTypes) {
 		Width: { type : DataTypes.INTEGER, field : 'width' },
 		Height: { type : DataTypes.INTEGER, field : 'height' },
 		Latitude: 	{ type: DataTypes.FLOAT, defaultValue: 0.0, field : 'latitude' },
-		Longitude : { type: DataTypes.FLOAT, defaultValue: 0.0, field : 'longitude' }
-
+		Longitude : { type: DataTypes.FLOAT, defaultValue: 0.0, field : 'longitude' },
+		UserId: { type : DataTypes.INTEGER, field : 'user_id' }
 	}, {
 		underscored: true
 	});
