@@ -8,8 +8,10 @@
 		
 		<style>
 			.search-address-input{ width:400px !important;}
-			.slider-container{margin: 40px 0 60px;}
-			.main-container{margin: 0 0 20px;}
+			.slider-container{
+			    margin: 20px 0 0;
+    			width: 700px;
+			}
 			.grid-item { width: 200px; }
 			.grid-item--width2 { width: 400px; }
 			.item-photo{max-width: 200px; padding:0 10px 10px; }
@@ -19,7 +21,7 @@
 				float: right;
 			}
 			.start-date,.end-date{
-				font-weight: bold;
+				color:white;
 			}
 			.likes{
 				/*padding: 0px 10px 5px 0;*/
@@ -96,8 +98,8 @@
 	
 		<%- include navbar.ejs %>	
 
-		<div>
-			
+		<div class="main-container">
+						
 			<table id="photos-map" width="100%">
 				<tbody>
 					<tr>
@@ -105,18 +107,7 @@
 							<div id="map"></div>			
 						</td>
 						<td width="700px" valign="top">
-							<div class="right-container">
-								<div class="row slider-container">
-									<div class="col-md-3">
-										<span class="start-date">1880</span>
-									</div>
-									<div class="col-md-6">
-										<div id="slider"></div>
-									</div>
-									<div class="col-md-3">
-										<span class="end-date">2015</span>
-									</div>
-								</div>
+							<div class="right-container">								
 								<div class="grid">
 								</div>
 								<div>
@@ -258,7 +249,6 @@
 					maxZoom: 15
 				}).addTo(map);*/
 
-
 				map.setView(new L.LatLng(49.4942, 0.10713), 13);
 				map.addLayer(osm);
 
@@ -395,6 +385,8 @@
 				GetComments(selectedMarkerId);
 
 				$(".comments").show();
+
+				map._onResize(); 
 			}
 
 			var UnSelectPhoto = function(){
